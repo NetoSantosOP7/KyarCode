@@ -1,0 +1,44 @@
+# ============================================================================
+# QR CODE PRO - CONFIGURAÇÃO DE REESCRITA DE URL (Apache)
+# ============================================================================
+#
+# Responsabilidade:
+# - Implementar padrão Front Controller
+# - Redirecionar todas as requisições para index.php
+# - Preservar parâmetros de query string
+#
+# Funcionamento:
+# 1. Ativa o módulo de reescrita do Apache
+# 2. Verifica se o arquivo solicitado NÃO existe fisicamente
+# 3. Verifica se o diretório solicitado NÃO existe fisicamente
+# 4. Se ambas as condições forem verdadeiras, redireciona para index.php
+#
+# Exemplos de Reescrita:
+# - /home           → index.php?url=home
+# - /generate       → index.php?url=generate
+# - /assets/style.css → Servido diretamente (arquivo existe)
+#
+# Flags:
+# - QSA (Query String Append): Preserva parâmetros GET existentes
+# - L (Last): Para o processamento de regras após esta
+#
+# Requisitos:
+# - mod_rewrite habilitado no Apache
+# - AllowOverride All no diretório
+#
+# ============================================================================
+
+# Ativa o módulo de reescrita de URL
+RewriteEngine On
+
+# Condição 1: Arquivo solicitado NÃO existe fisicamente
+# Permite que arquivos reais (CSS, JS, imagens) sejam servidos diretamente
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# Condição 2: Diretório solicitado NÃO existe fisicamente
+# Permite que diretórios reais sejam acessados diretamente
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Regra: Redireciona tudo para index.php com parâmetro 'url'
+# Captura qualquer caminho (.*) e passa como valor do parâmetro 'url'
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]

@@ -1,0 +1,11 @@
+{
+    "_comment": "QR Code Pro - Configuração do Composer | Dependências: chillerlan/php-qrcode para geração de QR Codes | Autoload: PSR-4 mapeia namespace App\\ para diretório app/",
+    "require": {
+        "chillerlan/php-qrcode": "^5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}
